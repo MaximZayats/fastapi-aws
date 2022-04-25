@@ -1,5 +1,9 @@
 # Python Project Template
 
+## Idea
+- [ ] Upload and get data with AWS S3
+- [ ] RDS
+
 ## Features
 * [pre-commit](.pre-commit-config.yaml)
 * [CI: GitHub Actions](.github/workflows/code_checks.yml)

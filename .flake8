@@ -1,6 +1,14 @@
 [flake8]
 exclude=venv
-max-line-length = 120
+max-line-length = 88
 per-file-ignores =
     # imported but unused
     __init__.py: F401
+ignore=
+    B008  # Because of `Depends` function
+    D104  # D104 Missing docstring in public package
+    D100  # D100 Missing docstring in public module
+    Q000  # Q000 Double quotes found but single quotes preferred
+    D103  # D103 Missing docstring in public function
+    D101  # D101 Missing docstring in public class
+    WPS404  # WPS404 Found complex default value

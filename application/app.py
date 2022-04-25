@@ -1,24 +1,35 @@
-from os import getenv
-
-from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi_better_di.patcher.auto import is_pathed
+from starlette.responses import RedirectResponse
+
+from application.apps.core.dependencies import setup_dependencies
+from application.apps.shared.db import init_db
+
+assert is_pathed(), "Something went wrong"
 
 app = FastAPI()
+setup_dependencies(app)
 
 
 @app.on_event("startup")
 async def on_startup() -> None:
-    load_dotenv()
+    from application.apps.auth.routes import router as auth_router
+    from application.apps.core.routes import router as core_router
+    from application.apps.data_storage.routes import (
+        router as data_storage_router,
+    )
+    from application.apps.notifications.routes import (
+        router as notifications_router,
+    )
 
-    pg_user = getenv("POSTGRES_USER")
-    pg_password = getenv("POSTGRES_PASSWORD")
-    pg_database = getenv("POSTGRES_DB")
-    pg_host = getenv("POSTGRES_HOST")
+    app.include_router(auth_router)
+    app.include_router(core_router)
+    app.include_router(data_storage_router)
+    app.include_router(notifications_router)
 
-    db_url = f"postgres://{pg_user}:{pg_password}@{pg_host}:5432/{pg_database}"  # type: ignore  # NOQA
-    # connect to database using this url
+    await init_db()
 
 
 @app.get("/")
-def read_root():
-    return {"Hello": "World"}
+async def read_root():
+    return RedirectResponse("/docs")

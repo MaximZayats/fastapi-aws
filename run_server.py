@@ -14,7 +14,7 @@ def run():
         port = 80
     else:
         host = getenv("HOST", "0.0.0.0")
-        port = getenv("PORT", 80)
+        port = int(getenv("PORT", 80))
 
     uvicorn.run(app=app, host=host, port=port)  # type: ignore
 
