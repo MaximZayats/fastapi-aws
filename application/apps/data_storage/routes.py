@@ -43,7 +43,7 @@ async def upload_data(
 ):
     uid = generate_file_id(content_type=data.file.content_type)
 
-    await bucket.put_object(Key=uid, Body=await data.file.read())
+    await bucket.put_object(Key=uid, Body=await data.file.read())  # type: ignore
 
     obj = UploadInDB(
         username=claims.sub,

@@ -8,15 +8,15 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def verify_password(password: str, hashed_password: str, salt: str = "") -> bool:
-    return pwd_context.verify(password + salt, hashed_password)
+    return pwd_context.verify(password + salt, hashed_password)  # type: ignore
 
 
 def get_password_hash(password: str, salt: str = "") -> str:
-    return pwd_context.hash(password + salt)
+    return pwd_context.hash(password + salt)  # type: ignore
 
 
 def generate_jwt(claims: JWTClaims, secret_key: str = JWT_SECRET) -> str:
-    return jwt.encode(
+    return jwt.encode(  # type: ignore
         claims=claims.dict(),
         algorithm=JWT_ALGORITHM,
         key=secret_key,
